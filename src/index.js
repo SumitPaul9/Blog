@@ -4,6 +4,7 @@ import morgan from 'morgan';
 
 dotenv.config();
 
+import './helpers/init_mongodb.js'    //import database connection
 
 const app = express();
 

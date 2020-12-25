@@ -1,16 +1,25 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import './helpers/init_mongodb.js'                      //import database connection
+import authRoutes from './routes/auth.route.js'         //import authorization routes
 
 dotenv.config();
-
-import './helpers/init_mongodb.js'    //import database connection
-
 const app = express();
 
 app.use(express.json());
 app.use(morgan('dev'));
 
+app.use('/api', authRoutes);                            //authorization route middleware
+app.use((error, req, res)=>{                            //error handling middleware
+    res.status = error.status || 500;
+    res.send ({
+        error: {
+            message: error.message,
+            status: error.status || 500      
+        }
+    })
+})
 
 const port = process.env.PORT;
 

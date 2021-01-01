@@ -26,6 +26,7 @@ export const signup = async (req, res, next) => {
 export const login = async (req, res, next) => {
     try {
         const result = await loginSchema.validateAsync(req.body);
+        console.log(result)
         const user = await User.findOne({
             email: result.email
         });

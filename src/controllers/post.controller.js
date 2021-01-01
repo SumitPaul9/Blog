@@ -1,9 +1,9 @@
 import { Post } from "../models/Post.model.js";
+import { postSchema } from "../helpers/validation_schema.js";
 
 export const createPost = async(req, res, next) =>{
     try {
-        const result = req.body;
-        console.log(result)
+        const result = postSchema.validateAsync(req.body);
         const post = new Post(result);
         console.log(post)
         const savedPost = await post.save();
@@ -26,7 +26,6 @@ export const getPost = async(req, res, next)=>{
 export const updatePost = async(req, res, next)=>{
     try {  
         const result  = req.params;
-        console.log()
         const post = await Post.findOneAndUpdate(
             {_id: result.id},
             {$set: { title: req.body.title,
